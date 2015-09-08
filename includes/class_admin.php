@@ -1,15 +1,10 @@
 <?php 
-include("database.php");
+include("class_database.php");
 // Our database object
 $db = new DB;    
 $db->connect();
 $con = $db->connection;
 
-
-// // mysqli_query($db->connection,"INSERT INTO admin (username, password) VALUES ('Glenn', '112')");
-// $SQLquery = "SELECT * FROM admin where userID = 1 "; 
-// $result = $db->query($SQLquery);
-// print_r($result);
 
 class newAdmin {
 
@@ -48,7 +43,14 @@ class newAdmin {
 	}
 
 }
+$user1 = new newAdmin("Linh", "linh", "linh@tran.fi");
+echo "hello " . $user1->getName();
+// $user1->__toString();
+// $db -> select("INSERT INTO 'arkkitect_admin' ('username', 'password', 'email') 
+// 			VALUES (" . $user1->getName() . ", ". $$user1->getPass() . ", " . $user1->getEmail() . ")");
 
-
+// $SQLquery = " INSERT INTO arkkitect_admin(username, password, email) VALUES (' . $user1->getName() .') "; 
+// $result = $db->query($SQLquery);
+// print_r($result);
 
 ?>

@@ -10,6 +10,9 @@
     <td><input type="password" name="password" placeholder="password" /></td>
     </tr>
     <tr>
+    <td><input type="email" name="email" placeholder="email" /></td>
+    </tr>
+    <tr>
     <td>
     <button type="submit" name="btn-save"><strong>Register</strong></button></td>
     </tr>
