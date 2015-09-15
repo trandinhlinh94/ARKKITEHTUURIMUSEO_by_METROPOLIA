@@ -8,7 +8,7 @@ session_start();
         $login = $admin->check_login($emailusername, $password);
         if ($login) {
             // Registration Success
-           header("location:Admin.php");
+           header("location:home.php");
         } else {
             // Registration Failed
             echo 'Wrong username or password';

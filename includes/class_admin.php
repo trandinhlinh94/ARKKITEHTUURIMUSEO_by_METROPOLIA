@@ -1,14 +1,14 @@
 <?php 
 // make connection to database
 include("class_database.php"); 
-$db = new DB();
-$conn = $db->connect();
-$sql = "SELECT username, password, email FROM arkkitect_admin Where ID=2";
-$result = mysqli_query($db->connect(), $sql);
-$admin_data = mysqli_fetch_assoc($result);
-echo "Username: " .$admin_data['username'] . "<br />";
-echo "Pass: " .$admin_data['password'] . "<br />";
-echo "Email: " .$admin_data['email'] . "<br />";
+$db = new DB;
+// $conn = $db->connect();
+// $sql = "SELECT username, password, email FROM arkkitect_admin Where ID=2";
+// $result = mysqli_query($db->connect(), $sql);
+// $admin_data = mysqli_fetch_assoc($result);
+// echo "Username: " .$admin_data['username'] . "<br />";
+// echo "Pass: " .$admin_data['password'] . "<br />";
+// echo "Email: " .$admin_data['email'] . "<br />";
 
 class Admin {
 	// register new admin 

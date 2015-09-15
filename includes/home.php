@@ -1,8 +1,8 @@
 <?php 
 session_start();
-include_once 'include/class.user.php';
-$user = new User(); $uid = $_SESSION['uid'];
-if (!$user->get_session()){
+include_once 'class_admin.php';
+$user = new Admin(); $ID = $_SESSION['ID'];
+if (!$admin->get_session()){
  header("location:login.php");
 }
 
