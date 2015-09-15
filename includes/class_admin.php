@@ -1,56 +1,82 @@
 <?php 
-include("class_database.php");
-// Our database object
-$db = new DB;    
-$db->connect();
-$con = $db->connection;
+// make connection to database
+include("class_database.php"); 
+$db = new DB();
+$conn = $db->connect();
+$sql = "SELECT username, password, email FROM arkkitect_admin Where ID=2";
+$result = mysqli_query($db->connect(), $sql);
+$admin_data = mysqli_fetch_assoc($result);
+echo "Username: " .$admin_data['username'] . "<br />";
+echo "Pass: " .$admin_data['password'] . "<br />";
+echo "Email: " .$admin_data['email'] . "<br />";
 
+class Admin {
+	// register new admin 
+	public function reg_admin($username, $password, $email){
+		global $db;
+		$password = md5($password);
+		$sql = " SELECT * FROM arkkitect_admin where username = '$username' OR email = '$email' ";
 
-class newAdmin {
+		//checking if username of email exist on the database
+		$result = mysqli_query($db->connect(), $sql);
+		$count_row = $result->num_rows;
 
-	private $adminName;
-	private $adminPassword;
-	private $adminEmail;
-
-	public function __construct($adminName, $adminPassword, $adminEmail){
-		$this->adminName = $adminName;
-		$this->adminPassword = $adminPassword;
-		$this->adminEmail = $adminEmail;
+		// if username haven't been in the database, insert a new one
+		if ( $count_row == 0){
+			$sql1 = "INSERT INTO arkkitect_admin SET 
+					username = '$username', password = '$password', email = '$email' ";
+			$result = mysqli_query($db->connect(), $sql1) 
+					or die(mysqli_connect_errno()."Data cannot inserted. A problem with query was encountered.");
+			return $result;		
+		}else{
+			return false;
+		}
 	}
 
-	public function changeName($newName){
-		$this->adminName = $newName;
+	// login validation process
+	public function check_login($emailusername, $password){
+		global $db;
+		// var_dump($db);
+		die();
+		$password = md5($password);
+		$sql2 = "SELECT ID FROM arkkitect_admin WHERE 
+				email = '$emailusername' 	or username = '$emailusername' and password = '$password' ";
+
+		//checking if the username exist in the table 
+		$result = mysqli_query($db->connect(), $sql2);
+		$admin_data = mysqli_fetch_assoc($result);
+		$count_row = $result->num_rows;
+
+		if ($count_row == 1) {
+			// this login variable will use for session function 
+			$_SESSION['login'] = true; 
+			$_SESSION['ID'] = $admin_data['ID'];
+			return true;
+		}else {
+			return false;
+		}
 	}
 
-	public function changePass($newPass){
-		$this->adminPassword = $newPass;
+	//show the username or fullname if has 
+	public function getUsername($ID){
+		global $db;
+		$sql3 = " SELECT username FROM arkkitect_admin WHERE ID='$ID' ";
+		$result = mysqli_query($db->connect(), $sql3);
+		$admin_data = mysqli_fetch_assoc($result);
+		echo "Username: " .$admin_data['username'];
 	}
 
-	public function changeEmail($newEmail){
-		$this->adminEmail = $newEmail;
-	}
+	/*** starting the session ***/
+    public function get_session(){
+        return $_SESSION['login'];
+    }
 
-	public function getName(){
-		return $this->adminName;
-	}
+    public function user_logout() {
+        $_SESSION['login'] = FALSE;
+        session_destroy();
+    }
 
-	public function getPass(){
-		return $this->adminPassword;
-	}
-
-	public function getEmail(){
-		return $this->adminEmail;
-	}
 
 }
-$user1 = new newAdmin("Linh", "linh", "linh@tran.fi");
-echo "hello " . $user1->getName();
-// $user1->__toString();
-// $db -> select("INSERT INTO 'arkkitect_admin' ('username', 'password', 'email') 
-// 			VALUES (" . $user1->getName() . ", ". $$user1->getPass() . ", " . $user1->getEmail() . ")");
-
-// $SQLquery = " INSERT INTO arkkitect_admin(username, password, email) VALUES (' . $user1->getName() .') "; 
-// $result = $db->query($SQLquery);
-// print_r($result);
 
 ?>
