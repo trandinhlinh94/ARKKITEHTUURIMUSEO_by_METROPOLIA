@@ -5,7 +5,7 @@ session_start();
 
     if (isset($_REQUEST['submit'])) {
         extract($_REQUEST);
-        $login = $admin->check_login($emailusername, $password);
+        $login = $admin->check_login($username, $password);
         if ($login) {
             // Registration Success
            header("location:home.php");
@@ -41,12 +41,12 @@ OOP Login Module
 
 <span style="font-family: 'Courier 10 Pitch', Courier, monospace; font-size: 13px; font-style: normal; line-height: 1.5;"><div id="container"></span>
 <h1>Login Here</h1>
-<form action="" method="post" name="login">
+<form action="home.php" method="post" name="login">
 <table>
 <tbody>
 <tr>
 <th>UserName or Email:</th>
-<td><input type="text" name="emailusername" required="" /></td>
+<td><input type="text" name="username" required="" /></td>
 </tr>
 <tr>
 <th>Password:</th>

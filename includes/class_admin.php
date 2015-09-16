@@ -34,18 +34,19 @@ class Admin {
 	}
 
 	// login validation process
-	public function check_login($emailusername, $password){
+	public function check_login($username ,$password){
 		global $db;
 		// var_dump($db);
-		die();
+		// die();
 		$password = md5($password);
 		$sql2 = "SELECT ID FROM arkkitect_admin WHERE 
-				email = '$emailusername' 	or username = '$emailusername' and password = '$password' ";
+				username = '$username' and password = '$password' ";
 
 		//checking if the username exist in the table 
 		$result = mysqli_query($db->connect(), $sql2);
 		$admin_data = mysqli_fetch_assoc($result);
 		$count_row = $result->num_rows;
+		// var_dump($count_row);
 
 		if ($count_row == 1) {
 			// this login variable will use for session function 
@@ -58,7 +59,7 @@ class Admin {
 	}
 
 	//show the username or fullname if has 
-	public function getUsername($ID){
+	public function getAdminname($ID){
 		global $db;
 		$sql3 = " SELECT username FROM arkkitect_admin WHERE ID='$ID' ";
 		$result = mysqli_query($db->connect(), $sql3);
@@ -71,7 +72,7 @@ class Admin {
         return $_SESSION['login'];
     }
 
-    public function user_logout() {
+    public function admin_logout() {
         $_SESSION['login'] = FALSE;
         session_destroy();
     }
