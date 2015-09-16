@@ -1,7 +1,22 @@
 <?php
 session_start();
+
 include_once 'class_admin.php';
 $admin = new Admin();
+
+if (isset($_REQUEST['submit'])) {
+        extract($_REQUEST);
+        $login = $admin->check_login($username, $password);
+        if ($login) {
+            // Registration Success
+           header("location:home.php");
+        } else {
+            // Registration Failed
+            echo 'Wrong username or password';
+        }
+    }
+
+
 $id = $_SESSION['ID'];
 if (!$admin->get_session()){
  header("location:login.php");

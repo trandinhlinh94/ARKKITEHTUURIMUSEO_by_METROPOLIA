@@ -27,7 +27,7 @@ OOP Login Module
 
             function submitlogin() {
                 var form = document.login;
-                if(form.emailusername.value == ""){
+                if(form.username.value == ""){
                     alert( "Enter email or username." );
                     return false;
                 }
@@ -41,7 +41,7 @@ OOP Login Module
 
 <span style="font-family: 'Courier 10 Pitch', Courier, monospace; font-size: 13px; font-style: normal; line-height: 1.5;"><div id="container"></span>
 <h1>Login Here</h1>
-<form action="home.php" method="post" name="login">
+<form action="" method="post" name="login">
 <table>
 <tbody>
 <tr>
