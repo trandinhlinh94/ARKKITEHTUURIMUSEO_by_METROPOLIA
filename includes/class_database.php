@@ -2,11 +2,15 @@
 
 class DB {
     // The database connection
-    public static $connection;
+    public $connection;
     protected $_dbhost;
     protected $_db;
     protected $_dbuser;
     protected $_dbpass;
+
+    public function __construct(){
+        $this->connect();
+    }
 
     public function connect(){
         // Load configuration as an array. Use the actual location of your configuration file
@@ -18,13 +22,14 @@ class DB {
         $_dbpass = $config['dbpass'];
         
         // Opens a connection to a MySQL server.
-        self::$connection = new mysqli($_dbhost, $_dbuser, $_dbpass, $_dbname);
+        $this->connection = mysqli_connect($_dbhost, $_dbuser, $_dbpass, $_dbname);
+        var_dump($this->connection);
         // If connection was not successful, handle the error
-        if(self::$connection === false) {
+        if($this->connection === false) {
             // Handle error - notify administrator, log to a file, show an error screen, etc.
             return false;
         }
-        return self::$connection;
+        return $this->connection;
     }
 
     public function disconnect(){
@@ -40,10 +45,10 @@ class DB {
     public function query($query) {
         try{
         // Connect to the database
-        $connection = $this -> connect();
+        // $connection = $this -> connect();
 
         // Query the database
-        $result = $connection->query($query);
+        $result = mysqli_query($this->connect(), $query);
 
         return $result;
         } catch(Exception $exception) {
@@ -52,21 +57,16 @@ class DB {
     }
 
     /**
-     * Fetch rows from the database (SELECT query)
+     * Fetch rows from the database 
      *
      * @param $query The query string
      * @return bool False on failure / array Database rows on success
      */
-    public function select($query) {
-        $rows = array();
-        $result = $this -> query($query);
-        if($result === false) {
-            return false;
-        }
-        while ($row = $result -> fetch_array()) {
-            $rows[] = $row;
-        }
-        return $rows;
+    
+    public function fetch_array($result) {
+    
+        return mysqli_fetch_array($result);
+    
     }
 
     /**
@@ -79,10 +79,14 @@ class DB {
         return $connection -> error;
     }
 
-    public function test(){
-        echo "db connected";
+    /**
+    *  Prepare the input before inserting into database. This is to prevent SQL injection
+    *
+    */
+    public function escape_value($string) { 
+    $escaped_string = mysqli_real_escape_string($this->connect(), $string);
+    return $escaped_string;
     }
 
 }
-
 ?>

@@ -1,7 +1,6 @@
 <?php 
 // make connection to database
 include("class_database.php"); 
-$db = new DB;
 // $conn = $db->connect();
 // $sql = "SELECT username, password, email FROM arkkitect_admin Where ID=2";
 // $result = mysqli_query($db->connect(), $sql);
