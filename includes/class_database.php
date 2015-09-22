@@ -23,7 +23,6 @@ class DB {
         
         // Opens a connection to a MySQL server.
         $this->connection = mysqli_connect($_dbhost, $_dbuser, $_dbpass, $_dbname);
-        var_dump($this->connection);
         // If connection was not successful, handle the error
         if($this->connection === false) {
             // Handle error - notify administrator, log to a file, show an error screen, etc.
@@ -88,5 +87,7 @@ class DB {
     return $escaped_string;
     }
 
+    // get the affected row from the query 
+    
 }
 ?>

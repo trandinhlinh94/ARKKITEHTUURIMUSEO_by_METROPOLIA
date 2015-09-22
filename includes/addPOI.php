@@ -11,7 +11,7 @@
       <input type="text" class="form-control"  placeholder=" " name="providername">
     </div>
 
-  <!--   <div class="form-group">
+    <div class="form-group">
       <label for="pwd">Designers:</label>
       <input type="text" class="form-control"  placeholder=" " name="designers">
     </div>
@@ -76,6 +76,6 @@
       <input type="text" class="form-control"  placeholder=" " name="url">
     </div>
     
-     -->
+    
     <button type="submit" class="btn btn-default">Submit</button>
   </form>

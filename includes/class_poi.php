@@ -1,4 +1,11 @@
 <?php 
+
+// TODO : check the existing poi before adding new record to db
+
+// TODO : sanitize values before inserting data to db 
+
+
+
 // create connection to database
 include("class_database.php"); 
 class POI {
@@ -6,7 +13,20 @@ class POI {
 	protected $table_name = "arkkitect_poi";
 	protected $table_fields = array(
 		'name' => '',
-		'providername' => '' 
+		'providername' => '',
+		'designers' => '',
+		'description' => '',
+		'design_year' => '',
+		'height' => '',
+		'tags' => '',
+		'credit' => '',
+		'style_defination' => '',
+		'arch_comp' => '', 
+		'lat' => '', 
+		'lng' => '',
+		'email' => '',
+		'phone' => '',
+		'url' => ''
 		);	
 	
 	public function set_fields($array_field){
@@ -26,18 +46,11 @@ class POI {
 		}
 
 		return $result;
-		/*foreach ($this->table_fields as $value) {
-			if (!empty($value)) {
-				return true;
-			} else {
-				return false;
-			}
-		}*/
+		
 	}
 
 	public function push_data(){
 		$db = new DB();
-		var_dump($db);
 		$is_validated = $this->validate_field();
 
 		// Don't forget your SQL syntax and good habits:
@@ -48,6 +61,7 @@ class POI {
 		if ($is_validated) {
 			$keys_array = array();
 			$values_array = array();
+			// loop through the fields and values in the table and generate separate array for keys and values
 			foreach ($this->table_fields as $key => $value){
 				array_push($keys_array, $key);
 				array_push($values_array, "'" . $value . "'");
@@ -57,11 +71,42 @@ class POI {
 			$values_string = "(" . implode(", ", $values_array) . ")";
 			$sql = "INSERT INTO " . $this->table_name . " " . $keys_string . " VALUES " . $values_string;
 			//execute query 
-			$db->query($sql);
-			var_dump($db->connection);
+			$result = $db->query($sql);
+			if ($result){
+				echo "New poi added to database";
+			}
 		} else {
-
+			echo "<h3>Invalid input, try again. </h3>";
 		}
+	}
+
+	public function update_data(){
+		$db = new DB();
+		
+		$keys_array = array();
+		$values_array = array();
+		// loop through the fields and values in the table and 
+		// generate separate array for keys and values
+		foreach ($this->table_fields as $key => $value){
+			array_push($keys_array, $key);
+			array_push($values_array, "'" . $value . "'");
+		}
+		
+		// Find the row that is selected to edit. 1 row at a time. 	
+		$is_selected = "SELECT * FROM " . $this->table_name . " WHERE id='2' " ;
+		
+		// Select the field to edit value. 
+		$result = $db->query($is_selected);
+		$row = $db->fetch_array($result);
+		// var_dump($is_selected);
+		var_dump($row);
+
+		// set new value to field.
+
+		// Don't forget your SQL syntax and good habits:
+		// - UPDATE table SET key='value', key='value' WHERE condition
+		// - single-quotes around all values
+		// - escape all values to prevent SQL injection 
 	}
 
 }
