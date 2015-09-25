@@ -46,8 +46,31 @@ class POI {
 		}
 
 		return $result;
-		
 	}
+
+	public function show_all_poi(){
+		$db = new DB();
+		$sql = "SELECT * FROM " .$this->table_name;
+		$result = $db->query($sql);
+		return $result;
+	}
+	
+	public function show_by_fieldname(){
+		$db = new DB();
+		$keys_array = array();
+		// loop through the fields and values in the table and generate separate array for keys and values	
+		foreach ($this->table_fields as $key => $value){
+			array_push($keys_array, $key);
+		}		
+		$sql = "SELECT * FROM " . $table_name . " WHERE name =" . $keys_array[$keys] ;  
+		var_dump($sql);
+	}
+
+	public function fetch_rows(){
+		$db = new DB();
+		$row = mysqli_fetch_row($this->show_all_poi());
+		return $row;
+	}	
 
 	public function push_data(){
 		$db = new DB();
@@ -83,30 +106,27 @@ class POI {
 	public function update_data(){
 		$db = new DB();
 		
-		$keys_array = array();
-		$values_array = array();
+		$arguments = array();
 		// loop through the fields and values in the table and 
-		// generate separate array for keys and values
+		// seperate each column out with it's corresponding value
 		foreach ($this->table_fields as $key => $value){
-			array_push($keys_array, $key);
-			array_push($values_array, "'" . $value . "'");
+			$arguments[]=$field.'="'.$value.'"';
 		}
-		
+		// set new value to field.
+			// Don't forget your SQL syntax and good habits:
+			// - UPDATE table SET key='value', key='value' WHERE condition
+			// - single-quotes around all values
+			// - escape all values to prevent SQL injection 
 		// Find the row that is selected to edit. 1 row at a time. 	
-		$is_selected = "SELECT * FROM " . $this->table_name . " WHERE id='2' " ;
-		
+		$sql = "UPDATE " . $this->table_name . " SET "; 
+		$sql.= implode(',', $arguments) . " where id = $id";
+
 		// Select the field to edit value. 
 		$result = $db->query($is_selected);
 		$row = $db->fetch_array($result);
 		// var_dump($is_selected);
 		var_dump($row);
-
-		// set new value to field.
-
-		// Don't forget your SQL syntax and good habits:
-		// - UPDATE table SET key='value', key='value' WHERE condition
-		// - single-quotes around all values
-		// - escape all values to prevent SQL injection 
+		
 	}
 
 }

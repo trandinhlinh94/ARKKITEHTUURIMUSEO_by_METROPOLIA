@@ -48,7 +48,6 @@ class DB {
 
         // Query the database
         $result = mysqli_query($this->connect(), $query);
-
         return $result;
         } catch(Exception $exception) {
             print_r("query error!");
@@ -59,13 +58,15 @@ class DB {
      * Fetch rows from the database 
      *
      * @param $query The query string
-     * @return bool False on failure / array Database rows on success
+     * @return an associative array of row
      */
     
     public function fetch_array($result) {
-    
-        return mysqli_fetch_array($result);
-    
+        $row = array();
+        while ($row = $result->fetch_assoc()) {
+            $rows[] = $row;
+        }
+        return $rows;
     }
 
     /**
@@ -75,7 +76,7 @@ class DB {
      */
     public function error() {
         $connection = $this -> connect();
-        return $connection -> error;
+        return $connection ->error;
     }
 
     /**
@@ -88,6 +89,6 @@ class DB {
     }
 
     // get the affected row from the query 
-    
+
 }
 ?>
